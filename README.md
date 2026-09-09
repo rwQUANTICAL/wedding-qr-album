@@ -27,7 +27,7 @@ Your guest opens the camera, scans the QR code on the table and lands in the alb
 - Like and comment on pictures
 - Download one photo or several at once
 
-iPhone HEIC files work. Videos up to 60 seconds work. Nobody logs in, and nobody needs Instagram, WhatsApp or Google Photos.
+iPhone HEIC files work. Videos up to 60 seconds work. No login or account creation (i.e. with email etc.) is required. 
 
 ## What you get as the host
 
