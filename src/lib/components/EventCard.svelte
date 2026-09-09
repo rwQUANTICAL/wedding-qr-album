@@ -71,38 +71,49 @@
 </script>
 
 <div class="card event">
-	<label class="row">
+	<div class="group name">
 		<span class="lbl">{t('event.couple')}</span>
-		<input
-			class="field"
-			bind:value
-			maxlength={LIMITS.titleChars}
-			placeholder={t('event.couplePh')}
-			autocapitalize="words"
-		/>
-	</label>
+		<div class="row">
+			<input
+				class="field compact"
+				bind:value
+				maxlength={LIMITS.titleChars}
+				placeholder={t('event.couplePh')}
+				autocapitalize="words"
+				onkeydown={(e) => e.key === 'Enter' && dirty && saveTitle()}
+			/>
+			<button
+				class="pill pill--ink small"
+				type="button"
+				onclick={saveTitle}
+				disabled={!dirty || busy}
+			>
+				{t('event.save')}
+			</button>
+			{#if saved}<span class="ok"><Icon name="check" size={14} /> {t('event.saved')}</span>{/if}
+			{#if err}<span class="err">{err}</span>{/if}
+		</div>
+	</div>
 
-	<div class="row">
+	<div class="group">
 		<span class="lbl">{t('event.photo')}</span>
-		<div class="photo">
-			<CoupleAvatar src={photo} size={56} />
-			<div class="acts">
-				<button
-					class="pill pill--soft"
-					type="button"
-					onclick={() => picker.click()}
-					disabled={busy}
-				>
-					<Icon name="upload" size={16} />
-					{t('event.pick')}
+		<div class="row">
+			<CoupleAvatar src={photo} size={34} />
+			<button
+				class="pill pill--soft small"
+				type="button"
+				onclick={() => picker.click()}
+				disabled={busy}
+			>
+				<Icon name="upload" size={14} />
+				{t('event.pick')}
+			</button>
+			{#if photo}
+				<button class="pill pill--soft small" type="button" onclick={removePhoto} disabled={busy}>
+					<Icon name="trash" size={14} />
+					{t('event.remove')}
 				</button>
-				{#if photo}
-					<button class="pill pill--soft" type="button" onclick={removePhoto} disabled={busy}>
-						<Icon name="trash" size={16} />
-						{t('event.remove')}
-					</button>
-				{/if}
-			</div>
+			{/if}
 		</div>
 	</div>
 
@@ -113,79 +124,85 @@
 		accept="image/*"
 		onchange={upload}
 	/>
-
-	<div class="foot">
-		<button class="pill pill--ink" type="button" onclick={saveTitle} disabled={!dirty || busy}>
-			{t('event.save')}
-		</button>
-		{#if saved}<span class="ok"><Icon name="check" size={16} /> {t('event.saved')}</span>{/if}
-		{#if err}<span class="err">{err}</span>{/if}
-	</div>
 </div>
 
 <style>
 	.event {
+		padding: 0.9rem 1rem;
 		display: flex;
 		flex-direction: column;
-		gap: 0.9rem;
+		gap: 0.75rem;
 	}
 
-	.row {
+	.group {
 		display: flex;
 		flex-direction: column;
 		gap: 0.4rem;
+		min-width: 0;
+	}
+
+	.name {
+		flex: 1 1 auto;
 	}
 
 	.lbl {
 		font-size: var(--fs-1);
-		font-weight: 600;
 		color: var(--ink-55);
 	}
 
-	.photo {
+	.row {
 		display: flex;
 		align-items: center;
-		gap: 0.75rem;
-	}
-
-	.acts {
-		display: flex;
+		gap: 0.5rem;
 		flex-wrap: wrap;
-		gap: 0.4rem;
 	}
 
-	.foot {
-		display: flex;
+	.name .row {
+		flex-wrap: nowrap;
+	}
+
+	.compact {
+		flex: 1 1 auto;
+		min-width: 0;
+		min-height: 34px;
+		padding: 0.3rem 0.7rem;
+		font-size: var(--fs-1);
+	}
+
+	.small {
+		min-height: 34px;
+		padding: 0 0.7rem;
+		font-size: var(--fs-1);
+		white-space: nowrap;
+	}
+
+	.ok,
+	.err {
+		display: inline-flex;
 		align-items: center;
-		gap: 0.6rem;
-		min-height: 40px;
+		gap: 0.25rem;
+		font-size: var(--fs-1);
+		white-space: nowrap;
 	}
 
 	.ok {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.3rem;
-		font-size: var(--fs-1);
 		font-weight: 600;
 		color: var(--teal-deep);
 	}
 
 	.err {
-		font-size: var(--fs-1);
 		color: var(--coral);
 	}
 
 	@media (min-width: 720px) {
 		.event {
-			display: grid;
-			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-			align-content: start;
-			column-gap: 1.5rem;
-			row-gap: 0.75rem;
+			flex-direction: row;
+			align-items: flex-start;
+			gap: 1.5rem;
 		}
 
-		.foot {
-			grid-column: 1 / -1;
+		.group:not(.name) {
+			flex: 0 0 auto;
 		}
 	}
 </style>
