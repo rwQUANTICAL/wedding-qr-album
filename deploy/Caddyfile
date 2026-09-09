@@ -1,0 +1,14 @@
+{$DOMAIN} {
+	encode zstd gzip
+	request_body {
+		max_size 220MB
+	}
+	header {
+		X-Robots-Tag "noindex, nofollow"
+		Referrer-Policy "same-origin"
+		X-Content-Type-Options "nosniff"
+	}
+	reverse_proxy app:3000 {
+		flush_interval -1
+	}
+}

@@ -1,0 +1,63 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+
+  # Deploys only from the upstream repository. Forks run the checks and stop here.
+  # Needs the secrets DEPLOY_SSH_KEY, DEPLOY_KNOWN_HOSTS, DEPLOY_HOST and the
+  # variables DEPLOY_URL (public address) and optionally DEPLOY_PATH.
+  deploy:
+    needs: check
+    if: github.repository == 'rwQUANTICAL/wedding-qr-album'
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      DEPLOY_PATH: ${{ vars.DEPLOY_PATH || '/opt/weddingphotos' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy
+          chmod 600 ~/.ssh/deploy
+          echo "${{ secrets.DEPLOY_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+
+      - name: Mirror code to the server
+        run: |
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/deploy -o StrictHostKeyChecking=yes" \
+            --exclude .git --exclude node_modules --exclude data --exclude .env \
+            --exclude .svelte-kit --exclude build \
+            ./ root@${{ secrets.DEPLOY_HOST }}:${DEPLOY_PATH}/
+
+      - name: Rebuild and start containers
+        run: |
+          ssh -i ~/.ssh/deploy -o StrictHostKeyChecking=yes root@${{ secrets.DEPLOY_HOST }} \
+            "cd ${DEPLOY_PATH} && docker compose -f deploy/docker-compose.yml up -d --build --remove-orphans && docker image prune -f >/dev/null && docker builder prune -f --keep-storage 1GB >/dev/null"
+
+      - name: Check the site answers
+        run: |
+          sleep 8
+          code=$(curl -s -o /dev/null -w "%{http_code}" "${{ vars.DEPLOY_URL }}/")
+          echo "HTTP $code"
+          test "$code" = "200" || test "$code" = "302"

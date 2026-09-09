@@ -1,0 +1,271 @@
+@import '@fontsource-variable/raleway/wght.css';
+@import '@fontsource-variable/raleway/wght-italic.css';
+
+:root {
+	--bg: #f7f1e3;
+	--bg-deep: #efe6d2;
+	--card: #ffffff;
+	--cream: #fdf0d5;
+	--ink: #1b2a28;
+	--ink-70: rgba(27, 42, 40, 0.72);
+	--ink-55: rgba(27, 42, 40, 0.56);
+	--ink-15: rgba(27, 42, 40, 0.14);
+	--ink-08: rgba(27, 42, 40, 0.07);
+	--teal: #249d8f;
+	--teal-deep: #1c8074;
+	--teal-soft: rgba(36, 157, 143, 0.14);
+	--gold: #e9c46a;
+	--gold-deep: #c9a24a;
+	--gold-soft: rgba(233, 196, 106, 0.28);
+	--coral: #e76f51;
+	--coral-deep: #c9553a;
+	--coral-soft: rgba(231, 111, 81, 0.14);
+	--room: #0f3a35;
+
+	--font: 'Raleway Variable', Raleway, system-ui, sans-serif;
+	--fs-1: 0.75rem;
+	--fs-2: 0.875rem;
+	--fs-3: 1rem;
+	--fs-4: 1.125rem;
+	--fs-5: 1.375rem;
+	--fs-6: 1.75rem;
+
+	--r-card: 18px;
+	--r-img: 14px;
+	--r-field: 12px;
+	--r-pill: 999px;
+
+	--shadow-card: 0 2px 6px rgba(27, 42, 40, 0.06), 0 10px 28px rgba(27, 42, 40, 0.08);
+	--shadow-card-hover: 0 4px 10px rgba(27, 42, 40, 0.08), 0 16px 36px rgba(27, 42, 40, 0.12);
+	--shadow-lamp: 0 10px 26px rgba(201, 162, 74, 0.45), 0 2px 6px rgba(27, 42, 40, 0.2);
+	--shadow-sheet: 0 -8px 30px rgba(27, 42, 40, 0.14);
+
+	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	--t-fast: 160ms;
+	--t-base: 240ms;
+
+	--safe-bottom: env(safe-area-inset-bottom, 0px);
+	--lamp-space: calc(96px + var(--safe-bottom));
+
+	color-scheme: light;
+	accent-color: var(--teal);
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	background: var(--bg);
+}
+
+body {
+	margin: 0;
+	min-height: 100dvh;
+	font-family: var(--font);
+	font-size: var(--fs-3);
+	line-height: 1.45;
+	color: var(--ink);
+	background: var(--bg);
+	-webkit-font-smoothing: antialiased;
+	overscroll-behavior-y: none;
+}
+
+img,
+video {
+	display: block;
+	max-width: 100%;
+}
+
+button,
+input,
+textarea {
+	font: inherit;
+	color: inherit;
+}
+
+button {
+	cursor: pointer;
+	border: 0;
+	background: none;
+	padding: 0;
+	touch-action: manipulation;
+	-webkit-tap-highlight-color: transparent;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+p {
+	margin: 0;
+	text-wrap: balance;
+}
+
+p {
+	text-wrap: pretty;
+}
+
+::selection {
+	background: var(--gold);
+	color: var(--ink);
+}
+
+:focus-visible {
+	outline: 2px solid var(--teal);
+	outline-offset: 3px;
+	border-radius: 6px;
+}
+
+input,
+textarea {
+	caret-color: var(--teal);
+}
+
+::placeholder {
+	color: var(--ink-55);
+	opacity: 1;
+}
+
+* {
+	scrollbar-width: thin;
+	scrollbar-color: var(--ink-15) transparent;
+}
+
+*::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+
+*::-webkit-scrollbar-thumb {
+	background: var(--ink-15);
+	border-radius: 999px;
+}
+
+.num {
+	font-variant-numeric: tabular-nums;
+	font-feature-settings: 'tnum';
+}
+
+.visually-hidden {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+.pill {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.45rem;
+	min-height: 44px;
+	padding: 0 1.1rem;
+	border-radius: var(--r-pill);
+	font-weight: 600;
+	font-size: var(--fs-2);
+	letter-spacing: 0.01em;
+	white-space: nowrap;
+	transition:
+		background-color var(--t-fast) var(--ease-out),
+		color var(--t-fast) var(--ease-out),
+		transform var(--t-fast) var(--ease-out),
+		opacity var(--t-fast) var(--ease-out);
+}
+
+.pill:active {
+	transform: scale(0.97);
+}
+
+.pill:disabled {
+	opacity: 0.45;
+	cursor: default;
+	transform: none;
+}
+
+.pill--ink {
+	background: var(--ink);
+	color: var(--cream);
+}
+
+.pill--ink:hover {
+	background: #263b38;
+}
+
+.pill--soft {
+	background: var(--ink-08);
+	color: var(--ink);
+}
+
+.pill--soft:hover {
+	background: var(--ink-15);
+}
+
+.pill--teal {
+	background: var(--teal);
+	color: #fff;
+}
+
+.pill--teal:hover {
+	background: var(--teal-deep);
+}
+
+.pill--gold {
+	background: var(--gold);
+	color: var(--ink);
+}
+
+.pill--gold:hover {
+	background: #f1d180;
+}
+
+.pill--coral {
+	background: var(--coral);
+	color: #fff8ee;
+}
+
+.pill--coral:hover {
+	background: var(--coral-deep);
+}
+
+.field {
+	width: 100%;
+	min-height: 48px;
+	padding: 0.7rem 0.9rem;
+	border-radius: var(--r-field);
+	border: 1px solid var(--ink-15);
+	background: var(--card);
+	color: var(--ink);
+	transition: border-color var(--t-fast) var(--ease-out), box-shadow var(--t-fast) var(--ease-out);
+}
+
+.field:focus {
+	outline: none;
+	border-color: var(--teal);
+	box-shadow: 0 0 0 3px var(--teal-soft);
+}
+
+.card {
+	background: var(--card);
+	border-radius: var(--r-card);
+	box-shadow: var(--shadow-card);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}
