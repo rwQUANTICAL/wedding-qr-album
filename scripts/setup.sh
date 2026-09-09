@@ -92,7 +92,7 @@ NEXT
 fi
 
 command -v docker >/dev/null || {
-	echo "Docker is missing. Install it, then run: docker compose -f deploy/docker-compose.yml up -d --build" >&2
+	echo "Docker is missing. Install it, then run: docker compose -f deploy/docker-compose.image.yml up -d" >&2
 	exit 1
 }
 
@@ -101,9 +101,10 @@ sudo mkdir -p /data/db /data/media /data/caddy
 
 read -r -p "Start the containers now? [Y/n] " START
 if [ -z "$START" ] || [ "$START" = "y" ] || [ "$START" = "Y" ]; then
-	docker compose -f "$ROOT/deploy/docker-compose.yml" up -d --build
+	docker compose -f "$ROOT/deploy/docker-compose.image.yml" pull
+	docker compose -f "$ROOT/deploy/docker-compose.image.yml" up -d
 else
-	echo "Start them later with: docker compose -f deploy/docker-compose.yml up -d --build"
+	echo "Start them later with: docker compose -f deploy/docker-compose.image.yml up -d"
 fi
 
 cat <<NEXT

@@ -1,0 +1,25 @@
+# Runs the published image. Build from source instead with docker-compose.yml.
+services:
+  app:
+    image: ghcr.io/rwquantical/wedding-qr-album:latest
+    restart: unless-stopped
+    env_file: ../.env
+    volumes:
+      - /data/db:/data/db
+      - /data/media:/data/media
+    expose:
+      - "3000"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    env_file: ../.env
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - /data/caddy/data:/data
+      - /data/caddy/config:/config
+    depends_on:
+      - app

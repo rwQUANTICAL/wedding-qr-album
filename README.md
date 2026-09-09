@@ -81,7 +81,7 @@ cd wedding-qr-album
 ./scripts/setup.sh
 ```
 
-The script asks for your domain, generates the two secrets, writes `.env`, creates the data folders and starts the containers. Caddy fetches a TLS certificate from Let's Encrypt, so the site is on HTTPS within a minute.
+The script asks for your domain, generates the two secrets, writes `.env`, creates the data folders, pulls the image from `ghcr.io/rwquantical/wedding-qr-album` and starts the containers. Caddy fetches a TLS certificate from Let's Encrypt, so the site is on HTTPS within a minute. The image is built for amd64 and arm64, so a Raspberry Pi works too.
 
 At the end it prints your setup link. Open it once:
 
@@ -95,10 +95,13 @@ Type the names of the couple, pick a photo for the header, and you are live. Bot
 
 ```bash
 git pull
-docker compose -f deploy/docker-compose.yml up -d --build
+docker compose -f deploy/docker-compose.image.yml pull
+docker compose -f deploy/docker-compose.image.yml up -d
 ```
 
 Photos, database and settings live in `/data` on the host, outside the containers, so an update never touches them.
+
+Prefer to build from source? Use `deploy/docker-compose.yml` with `up -d --build` instead. That is what our own deploy pipeline does.
 
 ### Run it on your laptop first
 
