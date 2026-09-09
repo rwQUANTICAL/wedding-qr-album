@@ -164,7 +164,7 @@ Issues and pull requests are welcome. Run `npm run check` before you open one, t
 
 ## License
 
-MIT. Copy it, change it, host it for your own wedding. No attribution required, no strings attached.
+MIT. Copy it, change it, host it for your own wedding. 
 
 **Want us to host it for you?** Write to [info@quantical.com](mailto:info@quantical.com). We run your album on GDPR-compliant servers in Germany, set up your names, your photo and your printed QR codes, and hand you a finished link. That service costs extra. The code here stays free.
 
