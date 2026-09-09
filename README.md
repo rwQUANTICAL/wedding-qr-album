@@ -25,7 +25,7 @@ Your guest opens the camera, scans the QR code on the table and lands in the alb
 - Delete their own pictures at any time
 - Browse every photo in the album, full screen, like on the Photos app
 - Like and comment on pictures
-- Download one photo, a few, or the whole album
+- Download one photo or several at once
 
 iPhone HEIC files work. Videos up to 60 seconds work. Nobody logs in, and nobody needs Instagram, WhatsApp or Google Photos.
 
@@ -73,7 +73,7 @@ Immich is a great replacement for Google Photos, and it is the wrong tool here. 
 
 ## Quick start with Docker
 
-You need a server with Docker installed and a domain pointing at it.
+You need a Linux server with Docker installed, ports 80 and 443 open, and a domain whose DNS record already points at the server. Caddy needs the DNS in place to fetch the certificate.
 
 ```bash
 git clone https://github.com/rwQUANTICAL/wedding-qr-album.git
@@ -91,7 +91,18 @@ https://your-domain.com/setup?key=<your ADMIN_KEY>
 
 Type the names of the couple, pick a photo for the header, and you are live. Both settings live in the database, so you can change them any time in the admin panel. The same link with `/admin` instead of `/setup` opens the control room, where you print the QR code for the tables.
 
+### Update
+
+```bash
+git pull
+docker compose -f deploy/docker-compose.yml up -d --build
+```
+
+Photos, database and settings live in `/data` on the host, outside the containers, so an update never touches them.
+
 ### Run it on your laptop first
+
+You need Node 22, plus `ffmpeg` and `libheif` for videos and iPhone photos (`brew install ffmpeg libheif` on a Mac, `apt install ffmpeg libheif-examples` on Debian or Ubuntu).
 
 ```bash
 ./scripts/setup.sh --local
@@ -142,7 +153,7 @@ The stack stays small: SvelteKit with the Node adapter, SQLite through better-sq
 
 ## Back up your album
 
-`deploy/backup.sh` copies the SQLite database and the media folder to a target of your choice. Set `BACKUP_TARGET`, add it to cron, and test the restore before the wedding rather than after.
+`deploy/backup.sh` copies the SQLite database and the media folder to a target of your choice. It needs `sqlite3` and `rsync` on the host. Set `BACKUP_TARGET`, add it to cron, and test the restore before the wedding rather than after.
 
 ## Contributing
 
