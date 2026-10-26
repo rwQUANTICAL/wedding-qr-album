@@ -21,7 +21,8 @@
 		| 'qr'
 		| 'zip'
 		| 'info'
-		| 'rings';
+		| 'rings'
+		| 'chevron';
 
 	interface Props {
 		name: IconName;
@@ -55,7 +56,8 @@
 		qr: 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z',
 		zip: 'M5 3.5h9l5 5v12H5zM14 3.5v5h5M10 8v2M10 12v2M10 16v2',
 		info: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v5.5M12 7.8v.1',
-		rings: 'M9 18a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM15 18a5 5 0 1 0 0-10 5 5 0 0 0 0 10z'
+		rings: 'M9 18a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM15 18a5 5 0 1 0 0-10 5 5 0 0 0 0 10z',
+		chevron: 'M6.5 9.5 12 15l5.5-5.5'
 	};
 </script>
 

@@ -442,8 +442,19 @@
 
 	.gactions {
 		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
 		gap: 0.4rem;
-		flex: none;
+		min-width: 0;
+	}
+
+	.gactions .pill.small {
+		min-width: 0;
+	}
+
+	.gactions .pill.small :global(span) {
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.pill.small.danger {

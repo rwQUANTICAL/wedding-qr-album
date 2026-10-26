@@ -5,7 +5,7 @@
 	import { LIMITS } from '$lib/limits';
 	import Credit from '$lib/components/Credit.svelte';
 	import CoupleAvatar from '$lib/components/CoupleAvatar.svelte';
-	import { LANGS, type Lang } from '$lib/i18n/messages';
+	import { LANGS, isLang } from '$lib/i18n/messages';
 
 	let { data } = $props();
 	const t = i18n.t;
@@ -14,9 +14,13 @@
 	let saving = $state(false);
 	let error = $state<string | null>(null);
 
-	function pick(lang: Lang): void {
-		setLangCookie(lang);
-		i18n.lang = lang;
+	const current = $derived(LANGS.find((l) => l.code === i18n.lang) ?? LANGS[0]);
+
+	function pick(event: Event): void {
+		const value = (event.currentTarget as HTMLSelectElement).value;
+		if (!isLang(value)) return;
+		setLangCookie(value);
+		i18n.lang = value;
 	}
 
 	async function submit(e: SubmitEvent): Promise<void> {
@@ -49,18 +53,18 @@
 		<div class="frame">
 			<div class="top">
 				<CoupleAvatar src={data.couplePhoto} size={56} />
-				<div class="langs" role="radiogroup" aria-label={t('welcome.language')}>
-					{#each LANGS as l (l.code)}
-						<button
-							type="button"
-							role="radio"
-							aria-checked={i18n.lang === l.code}
-							class:on={i18n.lang === l.code}
-							onclick={() => pick(l.code)}
-							lang={l.code}>{l.label}</button
-						>
-					{/each}
-				</div>
+				<label class="langpick">
+					<span class="visually-hidden">{t('welcome.language')}</span>
+					<span class="face" aria-hidden="true">
+						<span class="name" lang={current.code}>{current.label}</span>
+						<Icon name="chevron" size={16} />
+					</span>
+					<select value={i18n.lang} onchange={pick}>
+						{#each LANGS as l (l.code)}
+							<option value={l.code} lang={l.code}>{l.label}</option>
+						{/each}
+					</select>
+				</label>
 			</div>
 			<h1>{data.eventTitle}</h1>
 			<p class="lead">{t('welcome.lead')}</p>
@@ -139,29 +143,58 @@
 			0 0 0 3px var(--bg);
 	}
 
-	.langs {
-		display: inline-flex;
-		padding: 3px;
-		border-radius: 999px;
-		background: var(--ink-08);
+	.langpick {
+		position: relative;
+		flex: 0 1 auto;
+		min-width: 0;
 	}
 
-	.langs button {
-		min-height: 34px;
-		padding: 0 0.75rem;
-		border-radius: 999px;
+	.face {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		min-height: 38px;
+		padding: 0 0.6rem 0 0.8rem;
+		border-radius: var(--r-pill);
+		border: 1px solid var(--ink-15);
+		background: var(--card);
 		font-size: var(--fs-1);
 		font-weight: 600;
-		color: var(--ink-70);
+		color: var(--ink);
 		transition:
-			background-color var(--t-fast) var(--ease-out),
-			color var(--t-fast) var(--ease-out);
+			border-color var(--t-fast) var(--ease-out),
+			background-color var(--t-fast) var(--ease-out);
 	}
 
-	.langs button.on {
-		color: var(--ink);
-		background: var(--card);
-		box-shadow: 0 1px 3px rgba(27, 42, 40, 0.2);
+	.name {
+		min-width: 0;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	.face :global(svg) {
+		flex: none;
+		color: var(--ink-55);
+	}
+
+	.langpick:hover .face {
+		border-color: var(--ink-55);
+	}
+
+	.langpick select {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		cursor: pointer;
+		appearance: none;
+	}
+
+	.langpick:has(select:focus-visible) .face {
+		outline: 2px solid var(--teal);
+		outline-offset: 2px;
 	}
 
 	h1 {

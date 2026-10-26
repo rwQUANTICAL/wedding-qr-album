@@ -98,7 +98,7 @@
 			{:else}
 				<label class="lang">
 					<span class="visually-hidden">{t('nav.language')}</span>
-					<span class="code" aria-hidden="true">{i18n.lang.toUpperCase()}</span>
+					<span class="code" aria-hidden="true">{i18n.lang.slice(0, 2).toUpperCase()}</span>
 					<select value={i18n.lang} onchange={changeLang}>
 						{#each LANGS as l (l.code)}
 							<option value={l.code}>{l.label}</option>
