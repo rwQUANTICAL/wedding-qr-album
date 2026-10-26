@@ -1,15 +1,16 @@
-export type Lang = 'en' | 'de' | 'tr';
+export type Lang = 'en' | 'de' | 'tr' | 'pt-BR';
 
 export const LANGS: { code: Lang; label: string; locale: string }[] = [
 	{ code: 'en', label: 'English', locale: 'en-GB' },
 	{ code: 'de', label: 'Deutsch', locale: 'de-DE' },
-	{ code: 'tr', label: 'Türkçe', locale: 'tr-TR' }
+	{ code: 'tr', label: 'Türkçe', locale: 'tr-TR' },
+	{ code: 'pt-BR', label: 'Português (Brasil)', locale: 'pt-BR' }
 ];
 
 export const DEFAULT_LANG: Lang = 'en';
 
 export function isLang(value: unknown): value is Lang {
-	return value === 'en' || value === 'de' || value === 'tr';
+	return value === 'en' || value === 'de' || value === 'tr' || value === 'pt-BR';
 }
 
 const en = {
@@ -711,7 +712,232 @@ const tr: Dict = {
 	'err.slideGone': 'Bu fotoğraf artık yok.'
 };
 
-export const messages: Record<Lang, Dict> = { en, de, tr };
+const ptBR: Dict = {
+	'nav.all': 'Todas',
+	'nav.mine': 'Minhas',
+	'nav.admin': 'Administração',
+	'nav.language': 'Idioma',
+	'title.photos': 'Fotos',
+	'count.photo': '{n} foto',
+	'count.photos': '{n} fotos',
+	'count.video': '{n} vídeo',
+	'count.videos': '{n} vídeos',
+	'count.guest': '{n} convidado',
+	'count.guests': '{n} convidados',
+
+	'welcome.title': 'Qual é o seu nome?',
+	'welcome.lead':
+		'Que bom ter você aqui 👰🤵. Digite seu nome como ele deve aparecer abaixo das suas fotos.',
+	'welcome.language': 'Idioma',
+	'welcome.name': 'Seu nome',
+	'welcome.go': 'Vamos lá',
+	'welcome.wait': 'Só um instante',
+	'welcome.error': 'Não foi possível concluir.',
+
+	'feed.emptySlide': 'Ainda não há fotos',
+	'feed.emptyTitle': 'A primeira foto da noite pode ser sua.',
+	'feed.emptyText':
+		'Toque aqui ou no botão dourado abaixo, escolha algumas fotos e pronto. Todas aparecem aqui para os convidados.',
+	'feed.more': 'Mostrar fotos anteriores',
+	'feed.loading': 'Carregando',
+
+	'screen.prev': 'Mídia anterior',
+	'screen.next': 'Próxima mídia',
+	'kind.photo': 'foto',
+	'kind.video': 'vídeo',
+	'kind.Photo': 'Foto',
+	'kind.Video': 'Vídeo',
+
+	'mount.processing': 'carregando',
+	'mount.failed': 'não foi possível abrir',
+	'mount.aria.processing': 'Carregando {kind} de {who}',
+	'mount.aria.failed': 'Não foi possível processar {kind} de {who}',
+	'mount.aria.ready': '{kind} de {who}',
+	'mount.who.you': 'você',
+	'mount.who.other': '{name}',
+
+	'upload.cta': 'Enviar fotos',
+	'upload.aria.idle': 'Enviar fotos e vídeos',
+	'upload.aria.show': 'Mostrar envios',
+	'upload.aria.busy': 'Envios em andamento: {done} de {total} concluídos',
+	'upload.progress': '{done} de {total} enviados',
+	'upload.failedOne': '1 arquivo não foi enviado',
+	'upload.failedMany': '{n} arquivos não foram enviados',
+	'upload.allDone': 'Todos os arquivos foram enviados',
+	'upload.more': 'Mais',
+	'upload.hideDone': 'Ocultar os concluídos',
+	'upload.close': 'Fechar envios',
+	'upload.done': 'Enviado, em processamento',
+	'upload.retry': 'Tentar novamente',
+	'upload.remove': 'Remover',
+	'upload.list': 'Envios',
+	'upload.err.type': 'Envie apenas fotos e vídeos.',
+	'upload.err.photoSize': 'A foto excede o limite de 30 MB.',
+	'upload.err.videoSize': 'O vídeo excede o limite de 200 MB.',
+	'upload.err.videoLength': 'O vídeo tem {s} segundos; o limite é {max}.',
+	'upload.err.network': 'A conexão foi interrompida.',
+	'upload.err.generic': 'Não foi possível enviar o arquivo.',
+
+	'viewer.back': 'Voltar',
+	'viewer.download': 'Baixar',
+	'viewer.you': 'você',
+	'viewer.processing': 'Carregando',
+	'viewer.processingPhoto': 'A foto ficará nítida em instantes.',
+	'viewer.processingVideo': 'O vídeo está sendo convertido. Isso pode levar alguns instantes.',
+	'viewer.failed': 'Não foi possível processar este {kind}',
+	'viewer.addCaption': 'Adicionar legenda',
+	'viewer.editCaption': 'Editar legenda',
+	'viewer.caption': 'Legenda',
+	'viewer.save': 'Salvar',
+	'viewer.cancel': 'Cancelar',
+	'viewer.like': 'Curtir',
+	'viewer.unlike': 'Remover curtida',
+	'viewer.edit': 'Editar',
+	'viewer.delete': 'Excluir',
+	'viewer.confirm': 'Excluir este {kind} definitivamente?',
+	'viewer.confirmYes': 'Sim, excluir',
+	'viewer.confirmNo': 'Manter',
+	'viewer.altPhoto': 'Foto de {name}',
+	'viewer.title': '{kind} de {name}',
+
+	'comments.title': 'Comentários',
+	'comments.empty': 'Ninguém comentou ainda. Que tal começar?',
+	'comments.placeholder': 'Escreva um comentário',
+	'comments.label': 'Comentário',
+	'comments.send': 'Enviar comentário',
+	'comments.delete': 'Excluir comentário',
+	'comments.error': 'Não foi possível enviar o comentário.',
+
+	'editor.title': 'Editar',
+	'editor.cancel': 'Cancelar',
+	'editor.save': 'Salvar',
+	'editor.saving': 'Salvando',
+	'editor.rotate': 'Girar',
+	'editor.resetCrop': 'Redefinir corte',
+	'editor.help': 'Arraste os cantos para cortar e mova o quadro para ajustar. O original será preservado.',
+	'editor.error': 'Não foi possível salvar.',
+	'editor.handle': 'Canto do corte {h}',
+
+	'me.title': 'Minhas fotos',
+	'me.ready': '{n} concluídos',
+	'me.processing': '{n} carregando',
+	'me.failed': 'Não foi possível abrir {n}',
+	'me.empty': 'Você ainda não enviou nada.',
+	'me.emptyHint': 'O botão dourado abaixo abre suas fotos. Você também pode escolher várias de uma vez.',
+
+	'admin.title': 'Painel de controle',
+	'admin.qr': 'Código QR para as mesas',
+	'admin.copy': 'Copiar link',
+	'admin.copied': 'Copiado',
+	'admin.print': 'Imprimir',
+	'admin.photos': 'Fotos',
+	'admin.videos': 'Vídeos',
+	'admin.guests': 'Convidados',
+	'admin.export': 'Baixar tudo em um arquivo ZIP',
+
+	'select.start': 'Selecionar',
+	'select.cancel': 'Cancelar',
+	'select.count': '{n} selecionados',
+	'select.download': 'Baixar',
+	'select.delete': 'Excluir',
+	'select.confirm': 'Excluir {n} itens definitivamente?',
+	'select.hint': 'Toque nas fotos para selecioná-las',
+	'feed.title': 'Todas as fotos',
+	'card.like': 'Curtir',
+	'card.comments': 'Comentários',
+
+	'admin.guestsTitle': 'Convidados',
+	'admin.guestsFine':
+		'Administradores podem editar e excluir qualquer foto e remover convidados. Ao excluir um convidado, todas as fotos e comentários dele também serão removidos.',
+	'admin.makeAdmin': 'Tornar administrador',
+	'admin.removeAdmin': 'Remover administrador',
+	'admin.adminBadge': 'Admin',
+	'admin.deleteGuest': 'Excluir convidado',
+	'admin.deleteGuestConfirm': 'Excluir {name} e todas as fotos e comentários?',
+	'admin.joined': 'entrou {time}',
+	'admin.me': 'você',
+	'err.selfAdmin': 'Você não pode remover seu próprio acesso de administrador.',
+	'err.selfDelete': 'Você não pode excluir a si mesmo.',
+
+	'profile.open': 'Seu perfil',
+	'profile.title': 'Seu perfil',
+	'profile.name': 'Nome',
+	'profile.choose': 'Escolher foto',
+	'profile.remove': 'Remover',
+	'profile.save': 'Salvar',
+	'profile.saved': 'Salvo',
+	'profile.close': 'Fechar',
+	'profile.language': 'Idioma',
+	'profile.admin': 'Área administrativa',
+	'profile.error': 'Não foi possível concluir.',
+
+	'admin.disk': 'Disco',
+	'admin.memory': 'Memória RAM',
+	'admin.load': 'Carga',
+	'footer.by': 'desenvolvido por',
+
+	'event.couple': 'Nome do evento',
+	'event.couplePh': 'Alex & Sam',
+	'event.photo': 'Foto do evento (por exemplo, dos convidados)',
+	'event.pick': 'Escolher foto',
+	'event.remove': 'Remover',
+	'event.save': 'Salvar',
+	'event.saved': 'Salvo',
+	'setup.title': 'Configure seu álbum',
+	'setup.lead': 'Informe o nome do casal e escolha uma foto. Você pode alterar os dois depois no painel administrativo.',
+	'setup.open': 'Abrir álbum',
+	'admin.setupOpen': 'Concluir configuração',
+
+	'info.nav': 'Sobre',
+	'info.title': 'Sobre',
+	'info.made': 'Este app foi desenvolvido exclusivamente pela rwQUANTICAL GmbH para {couple}.',
+	'info.imageAlt': 'Escritório da rwQUANTICAL em Düsseldorf Medienhafen',
+	'info.appTitle': 'Sobre o aplicativo',
+	'info.p1': 'Cada convidado pode enviar fotos e editar ou excluir as próprias.',
+	'info.p2': 'Todos os convidados podem ver todas as fotos.',
+	'info.p3': 'No final, {couple} compartilhará todas as fotos com você em um só lugar.',
+	'info.p4': 'Enquanto isso, você pode baixar uma foto ou várias de uma vez.',
+	'info.visit': 'Acessar rwQUANTICAL',
+	'info.contactTitle': 'Entre em contato',
+	'info.contactApp': 'Tem interesse neste aplicativo? Escreva para',
+	'info.contactProjects': 'Tem interesse em projetos de digitalização e IA? Acesse',
+
+	'profile.recoveryTitle': 'Seu link pessoal de acesso',
+	'profile.recoveryText':
+		'Abra este link em outro dispositivo ou depois de limpar os dados do navegador para voltar às suas fotos. Não compartilhe com outras pessoas.',
+	'profile.copyLink': 'Copiar link',
+	'profile.share': 'Compartilhar',
+	'profile.copied': 'Copiado',
+	'admin.recovery': 'Link de acesso',
+	'admin.recoveryCopied': 'Copiado',
+	'err.badRecovery': 'Este link de acesso é inválido.',
+
+	'error.generic': 'Algo deu errado.',
+	'error.home': 'Voltar à tela',
+	'err.nameRequired': 'Digite seu nome primeiro.',
+	'err.enterName': 'Digite um nome.',
+	'err.adminOnly': 'Apenas para o casal.',
+	'err.badBody': 'Conteúdo da solicitação inválido.',
+	'err.fileType': 'O formato {type} não é compatível.',
+	'err.tooLarge': 'Arquivo muito grande (máximo de {mb} MB).',
+	'err.emptyUpload': 'O arquivo enviado está vazio.',
+	'err.uploadAborted': 'Envio cancelado.',
+	'err.notFound': 'Não encontrado.',
+	'err.notYours': 'Você só pode alterar os próprios arquivos enviados.',
+	'err.badCrop': 'Corte inválido.',
+	'err.cropOutside': 'O corte fica fora da imagem.',
+	'err.noVideoEdit': 'Não é possível editar vídeos.',
+	'err.noOriginal': 'Arquivo original não encontrado.',
+	'err.badRotation': 'A rotação deve ser 0, 90, 180 ou 270.',
+	'err.emptyComment': 'O comentário está vazio.',
+	'err.commentId': 'commentId não informado.',
+	'err.commentNotFound': 'Comentário não encontrado ou não pertence a você.',
+	'err.unknownVariant': 'Variante desconhecida.',
+	'err.notReady': 'O arquivo ainda não está pronto.',
+	'err.slideGone': 'Esta foto não existe mais.'
+};
+
+export const messages: Record<Lang, Dict> = { en, de, tr, 'pt-BR': ptBR };
 
 export function format(template: string, vars?: Record<string, string | number>): string {
 	if (!vars) return template;

@@ -46,6 +46,7 @@ Open `/admin` and you run the whole event from one page.
 - English
 - German
 - Turkish
+- Portuguese (Brazil)
 
 A guest picks the language on the welcome screen, and the app remembers the choice.
 
@@ -134,7 +135,7 @@ Everything lives in `.env`.
 - **Names and photo in the header:** the setup wizard at `/setup`, or the Event card in the admin panel. No rebuild, no file to replace.
 - **Colours:** the palette sits in the CSS variables at the top of `src/app.css`.
 - **Font:** Raleway ships with the app, swap the `@fontsource-variable` import in `src/app.css`.
-- **Wording and languages:** all text lives in `src/lib/i18n/messages.ts`, three dictionaries side by side. Copy one to add a fourth language.
+- **Wording and languages:** all text lives in `src/lib/i18n/messages.ts`, four dictionaries side by side. Copy one to add a fifth language.
 - **Upload limits:** photo size, video size and video length sit in `src/lib/limits.ts`.
 
 ## How it works
