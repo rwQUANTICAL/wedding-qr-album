@@ -20,6 +20,7 @@ const en = {
 	'nav.admin': 'Admin',
 	'nav.language': 'Language',
 	'title.photos': 'Photos',
+	'title.fallback': 'Wedding album',
 	'count.photo': '{n} photo',
 	'count.photos': '{n} photos',
 	'count.video': '{n} video',
@@ -264,6 +265,7 @@ const de: Dict = {
 	'nav.admin': 'Admin',
 	'nav.language': 'Sprache',
 	'title.photos': 'Fotos',
+	'title.fallback': 'Hochzeitsalbum',
 	'count.photo': '{n} Foto',
 	'count.photos': '{n} Fotos',
 	'count.video': '{n} Video',
@@ -490,6 +492,7 @@ const tr: Dict = {
 	'nav.admin': 'Yönetim',
 	'nav.language': 'Dil',
 	'title.photos': 'Fotoğraflar',
+	'title.fallback': 'Düğün albümü',
 	'count.photo': '{n} fotoğraf',
 	'count.photos': '{n} fotoğraf',
 	'count.video': '{n} video',
@@ -718,6 +721,7 @@ const ptBR: Dict = {
 	'nav.admin': 'Administração',
 	'nav.language': 'Idioma',
 	'title.photos': 'Fotos',
+	'title.fallback': 'Álbum do casamento',
 	'count.photo': '{n} foto',
 	'count.photos': '{n} fotos',
 	'count.video': '{n} vídeo',
@@ -814,7 +818,8 @@ const ptBR: Dict = {
 	'editor.saving': 'Salvando',
 	'editor.rotate': 'Girar',
 	'editor.resetCrop': 'Redefinir corte',
-	'editor.help': 'Arraste os cantos para cortar e mova o quadro para ajustar. O original será preservado.',
+	'editor.help':
+		'Arraste os cantos para cortar e mova o quadro para ajustar. O original será preservado.',
 	'editor.error': 'Não foi possível salvar.',
 	'editor.handle': 'Canto do corte {h}',
 
@@ -823,7 +828,8 @@ const ptBR: Dict = {
 	'me.processing': '{n} carregando',
 	'me.failed': 'Não foi possível abrir {n}',
 	'me.empty': 'Você ainda não enviou nada.',
-	'me.emptyHint': 'O botão dourado abaixo abre suas fotos. Você também pode escolher várias de uma vez.',
+	'me.emptyHint':
+		'O botão dourado abaixo abre suas fotos. Você também pode escolher várias de uma vez.',
 
 	'admin.title': 'Painel de controle',
 	'admin.qr': 'Código QR para as mesas',
@@ -884,7 +890,8 @@ const ptBR: Dict = {
 	'event.save': 'Salvar',
 	'event.saved': 'Salvo',
 	'setup.title': 'Configure seu álbum',
-	'setup.lead': 'Informe o nome do casal e escolha uma foto. Você pode alterar os dois depois no painel administrativo.',
+	'setup.lead':
+		'Informe o nome do casal e escolha uma foto. Você pode alterar os dois depois no painel administrativo.',
 	'setup.open': 'Abrir álbum',
 	'admin.setupOpen': 'Concluir configuração',
 

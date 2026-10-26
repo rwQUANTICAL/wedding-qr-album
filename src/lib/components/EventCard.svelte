@@ -8,13 +8,14 @@
 	interface Props {
 		title: string;
 		photo: string | null;
+		value?: string;
+		/** Eigenen Speichern-Knopf zeigen. Die Einrichtung speichert über ihren eigenen Knopf. */
+		saveButton?: boolean;
 	}
 
-	let { title, photo }: Props = $props();
+	let { title, photo, value = $bindable(title), saveButton = true }: Props = $props();
 	const t = i18n.t;
 
-	// svelte-ignore state_referenced_locally
-	let value = $state(title);
 	let busy = $state(false);
 	let saved = $state(false);
 	let err = $state<string | null>(null);
@@ -82,14 +83,16 @@
 				autocapitalize="words"
 				onkeydown={(e) => e.key === 'Enter' && dirty && saveTitle()}
 			/>
-			<button
-				class="pill pill--ink small"
-				type="button"
-				onclick={saveTitle}
-				disabled={!dirty || busy}
-			>
-				{t('event.save')}
-			</button>
+			{#if saveButton}
+				<button
+					class="pill pill--ink small"
+					type="button"
+					onclick={saveTitle}
+					disabled={!dirty || busy}
+				>
+					{t('event.save')}
+				</button>
+			{/if}
 			{#if saved}<span class="ok"><Icon name="check" size={14} /> {t('event.saved')}</span>{/if}
 			{#if err}<span class="err">{err}</span>{/if}
 		</div>

@@ -71,7 +71,7 @@ PUBLIC_BASE_URL=$BASE_URL
 # Domain for Caddy and its TLS certificate
 DOMAIN=$DOMAIN
 ORIGIN=$BASE_URL
-# Optional fallback for the header. The setup wizard writes the real one.
+# Optional name for the header. Leave it empty and the setup wizard asks for it.
 EVENT_TITLE=
 ENVFILE
 

@@ -3,15 +3,11 @@ import { db } from './db';
 import { LIMITS } from '$lib/limits';
 
 export interface Branding {
-	/** Name im Kopf der App. */
+	/** Name im Kopf der App. Leer, solange niemand einen eingetragen hat. */
 	eventTitle: string;
 	/** 0 = kein Paarfoto hinterlegt, sonst Zählerstand für den Cache-Bust. */
 	photoVersion: number;
-	/** Erst-Einrichtung abgeschlossen. */
-	setupDone: boolean;
 }
-
-const FALLBACK_TITLE = 'Our Wedding';
 
 function read(key: string): string | null {
 	const row = db.prepare('SELECT value FROM settings WHERE key = ?').get(key) as
@@ -25,12 +21,11 @@ function write(key: string, value: string): void {
 	).run(key, value);
 }
 
-/** Reihenfolge: gespeicherte Einstellung, dann EVENT_TITLE aus der Umgebung, dann ein neutraler Titel. */
+/** Gespeicherter Name vor EVENT_TITLE aus der Umgebung. Kein erfundener Ersatz. */
 export function branding(): Branding {
 	return {
-		eventTitle: read('event_title') ?? env.EVENT_TITLE?.trim() ?? FALLBACK_TITLE,
-		photoVersion: Number(read('couple_photo') ?? 0),
-		setupDone: read('setup_done') === '1'
+		eventTitle: read('event_title') || env.EVENT_TITLE?.trim() || '',
+		photoVersion: Number(read('couple_photo') ?? 0)
 	};
 }
 
@@ -48,8 +43,4 @@ export function bumpCouplePhoto(): number {
 
 export function clearCouplePhoto(): void {
 	write('couple_photo', '0');
-}
-
-export function completeSetup(): void {
-	write('setup_done', '1');
 }

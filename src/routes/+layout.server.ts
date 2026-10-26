@@ -4,6 +4,7 @@ import { stats } from '$lib/server/media';
 import { branding } from '$lib/server/settings';
 import { recoveryToken } from '$lib/server/auth';
 import { inviteUrl } from '$lib/server/qr';
+import { st } from '$lib/server/i18n';
 
 export const load: LayoutServerLoad = ({ url, locals }) => {
 	if (url.searchParams.has('key')) {
@@ -16,13 +17,15 @@ export const load: LayoutServerLoad = ({ url, locals }) => {
 	if (needsName && url.pathname !== '/welcome') redirect(302, '/welcome');
 
 	const brand = branding();
+	if (!brand.eventTitle && locals.isAdmin && url.pathname !== '/setup') redirect(302, '/setup');
+
 	return {
 		guest: locals.guest,
 		lang: locals.lang,
 		isAdmin: locals.isAdmin,
-		eventTitle: brand.eventTitle,
+		eventName: brand.eventTitle,
+		eventTitle: brand.eventTitle || st(locals.lang, 'title.fallback'),
 		couplePhoto: brand.photoVersion > 0 ? `/api/branding/couple?v=${brand.photoVersion}` : null,
-		setupDone: brand.setupDone,
 		stats: stats(),
 		recoveryUrl: locals.guest ? `${inviteUrl(url.origin)}r/${recoveryToken(locals.guest)}` : null
 	};

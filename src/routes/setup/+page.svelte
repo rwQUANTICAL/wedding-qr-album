@@ -6,21 +6,34 @@
 
 	let { data } = $props();
 	const t = i18n.t;
+	// svelte-ignore state_referenced_locally
+	let name = $state(data.eventName);
 	let leaving = $state(false);
+	let error = $state<string | null>(null);
 
 	async function finish(): Promise<void> {
+		const value = name.trim();
+		if (!value || leaving) return;
 		leaving = true;
-		await fetch('/api/settings', {
+		error = null;
+		const res = await fetch('/api/settings', {
 			method: 'PUT',
 			headers: { 'content-type': 'application/json' },
-			body: JSON.stringify({ setupDone: true })
+			body: JSON.stringify({ eventTitle: value })
 		});
+		if (!res.ok) {
+			error =
+				((await res.json().catch(() => ({}))) as { message?: string }).message ??
+				t('profile.error');
+			leaving = false;
+			return;
+		}
 		await invalidateAll();
 		await goto('/');
 	}
 </script>
 
-<svelte:head><title>{t('setup.title')} · {data.eventTitle}</title></svelte:head>
+<svelte:head><title>{t('setup.title')}</title></svelte:head>
 
 <section class="setup">
 	<header>
@@ -28,12 +41,20 @@
 		<p>{t('setup.lead')}</p>
 	</header>
 
-	<EventCard title={data.eventTitle} photo={data.couplePhoto} />
+	<EventCard title={data.eventName} photo={data.couplePhoto} bind:value={name} saveButton={false} />
 
-	<button class="pill pill--gold done" type="button" onclick={finish} disabled={leaving}>
-		{t('setup.open')}
-		<Icon name="back" size={18} />
-	</button>
+	<div class="foot">
+		<button
+			class="pill pill--gold"
+			type="button"
+			onclick={finish}
+			disabled={!name.trim() || leaving}
+		>
+			{t('setup.open')}
+			<Icon name="back" size={18} />
+		</button>
+		{#if error}<span class="err">{error}</span>{/if}
+	</div>
 </section>
 
 <style>
@@ -61,11 +82,18 @@
 		color: var(--ink-70);
 	}
 
-	.done {
-		align-self: flex-start;
+	.foot {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
 	}
 
-	.done :global(svg) {
+	.foot :global(svg) {
 		transform: rotate(180deg);
+	}
+
+	.err {
+		font-size: var(--fs-1);
+		color: var(--coral);
 	}
 </style>

@@ -90,7 +90,7 @@ At the end it prints your setup link. Open it once:
 https://your-domain.com/setup?key=<your ADMIN_KEY>
 ```
 
-Type the names of the couple, pick a photo for the header, and you are live. Both settings live in the database, so you can change them any time in the admin panel. The same link with `/admin` instead of `/setup` opens the control room, where you print the QR code for the tables.
+Type the names of the couple, pick a photo for the header, and you are live. Until the event has a name, every admin link leads to this page. Both settings live in the database, so you can change them any time in the admin panel. The same link with `/admin` instead of `/setup` opens the control room, where you print the QR code for the tables.
 
 ### Update
 
@@ -128,7 +128,7 @@ Everything lives in `.env`.
 | `DATA_DIR` | Where the SQLite database and the media files go |
 | `DOMAIN` | Domain for Caddy and its TLS certificate |
 | `ORIGIN` | Public origin for SvelteKit, for example `https://photos.example.com` |
-| `EVENT_TITLE` | Fallback for the header, only used before you run the setup wizard |
+| `EVENT_TITLE` | Optional name for the header. Leave it empty and the setup wizard asks for it |
 
 ## Make it yours
 

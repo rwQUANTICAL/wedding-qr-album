@@ -131,7 +131,7 @@
 			</div>
 		</div>
 
-		<EventCard title={data.eventTitle} photo={data.couplePhoto} />
+		<EventCard title={data.eventName} photo={data.couplePhoto} />
 	</div>
 
 	<h2 class="list-h">{t('admin.guestsTitle')} <span class="num">{data.guests.length}</span></h2>
